@@ -1,0 +1,36 @@
+COMANDOS
+
+enable
+configure terminal
+
+
+VLAN SWITCH
+vlan 50
+name GUEST_NET
+interface range fa 0/17-18
+switchport access vlan 50
+exit
+
+
+VLAN (ROUTER)
+interface gigabitEthernet 0/0/0.50
+description GUESTS_NET
+no shutdown
+encapsulation dot1Q 50
+ip address 203.0.113.129 255.255.255.224
+exit
+
+
+ROUTER DHCP
+ip dhcp POOL GUESTS_NET
+dns-server 69.13.5.67
+network 172.20.5.128 255.255.255.224
+default-router 172.20.5.129
+exit
+ip dhcp excluded-address 172.20.5.129
+
+
+SERVIDOR DHCP
+interface gigabitEthernet0/0/0.50
+ip helper-address 203.0.113.98
+exit
