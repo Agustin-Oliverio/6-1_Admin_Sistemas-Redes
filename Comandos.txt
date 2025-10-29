@@ -37,7 +37,32 @@ exit
 
 
 TUNEL GRE
-interface Tunnel
-ip address 10.10.10.1 255.255.255.252
+interface Tunnel1
+ip address 10.10.10.2 255.255.255.252
 tunnel source Serial0/1/0
-tunnel destination 23.10.0.2
+tunnel destination 23.10.0.1
+
+
+VPN
+crypto isakmp policy 10
+authentication pre-share
+hash sha
+encryption aes 256
+group 2
+lifetime 86400
+exit
+crypto isakmp key gonzalini address 12.0.0.2
+crypto ipsec transform-set reglas esp-aes esp-sha-hmac
+
+(armamos los ACL que sean nesesarios bajo el mismo N° de ACL:  IP red Origen + WildCard    IP red Destino + Wildcard)
+access-list 101 permit ip 192.168.1.0 0.0.0.255 192.168.11.0 0.0.0.255    (recordar armar el inverso en el destino)
+access-list 101 permit ip 192.168.1.0 0.0.0.255 192.168.12.0 0.0.0.255    (recordar armar el inverso en el destino)
+crypto map CMAP 10 ipsec-isakmp     (este nombre CMAP puede ser cualquiera pero hay que respetarlo siempre)
+set peer 12.0.0.2    (IP del destino)
+match address 101   (el 101 es el N° de la ACL creadas arriba)
+set transform-set TSET     (este nombre TSET puede ser cualquiera pero hay que respetarlo siempre)
+exit  
+interface serial 0/1/0  (elección de la interface Serial de salida)
+crypto map CMAP    (este nombre CMAP puede ser cualquiera pero hay que respetarlo siempre)
+do wr  ( es lo mismo copy running-config startup-config)
+exit
