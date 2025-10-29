@@ -17,7 +17,7 @@ interface gigabitEthernet 0/0/0.50
 description GUEST_NET
 no shutdown
 encapsulation dot1Q 50
-ip address 198.51.100.225 255.255.255.224
+ip address 198.51.100.225 255.255.255.240
 exit
 
 
@@ -34,3 +34,10 @@ SERVIDOR DHCP
 interface gigabitEthernet0/0/0.50
 ip helper-address 203.0.113.98
 exit
+
+
+TUNEL GRE
+interface Tunnel
+ip address 10.10.10.1 255.255.255.252
+tunnel source Serial0/1/0
+tunnel destination 23.10.0.2
