@@ -51,18 +51,126 @@ encryption aes 256
 group 2
 lifetime 86400
 exit
-crypto isakmp key gonzalini address 12.0.0.2
-crypto ipsec transform-set reglas esp-aes esp-sha-hmac
+crypto isakmp key gonzalini address 23.10.0.2
+crypto ipsec transform-set management esp-aes esp-sha-hmac
+access-list 101 permit ip 172.20.5.0 0.0.0.31 203.0.113.0 0.0.0.31
+crypto map managerMap 10 ipsec-isakmp
+set peer 23.10.0.2
+match address 101
+set transform-set management
+exit
+interface serial 0/1/0
+crypto map managerMap
+do wr
+exit
 
-(armamos los ACL que sean nesesarios bajo el mismo N° de ACL:  IP red Origen + WildCard    IP red Destino + Wildcard)
-access-list 101 permit ip 192.168.1.0 0.0.0.255 192.168.11.0 0.0.0.255    (recordar armar el inverso en el destino)
-access-list 101 permit ip 192.168.1.0 0.0.0.255 192.168.12.0 0.0.0.255    (recordar armar el inverso en el destino)
-crypto map CMAP 10 ipsec-isakmp     (este nombre CMAP puede ser cualquiera pero hay que respetarlo siempre)
-set peer 12.0.0.2    (IP del destino)
-match address 101   (el 101 es el N° de la ACL creadas arriba)
-set transform-set TSET     (este nombre TSET puede ser cualquiera pero hay que respetarlo siempre)
-exit  
-interface serial 0/1/0  (elección de la interface Serial de salida)
-crypto map CMAP    (este nombre CMAP puede ser cualquiera pero hay que respetarlo siempre)
-do wr  ( es lo mismo copy running-config startup-config)
+
+crypto isakmp policy 10
+authentication pre-share
+hash sha
+encryption aes 256
+group 2
+lifetime 86400
+exit
+crypto isakmp key gonzalini address 23.10.0.1
+crypto ipsec transform-set management esp-aes esp-sha-hmac
+access-list 101 permit ip 203.0.113.0 0.0.0.31 172.20.5.0 0.0.0.31
+crypto map managerMap 10 ipsec-isakmp
+set peer 23.10.0.1
+match address 101
+set transform-set management
+exit
+interface serial 0/1/0
+crypto map managerMap
+do wr
+exit
+
+
+
+
+
+crypto isakmp policy 10
+authentication pre-share
+hash sha
+encryption aes 256
+group 2
+lifetime 86400
+exit
+crypto isakmp key skibidi address 23.10.0.2
+crypto ipsec transform-set servers esp-aes esp-sha-hmac
+access-list 102 permit ip 172.20.5.96 0.0.0.31 203.0.113.96 0.0.0.31
+crypto map serversMap 10 ipsec-isakmp
+set peer 23.10.0.2
+match address 102
+set transform-set servers
+exit
+interface serial 0/1/0
+crypto map serversMap
+do wr
+exit
+
+
+crypto isakmp policy 10
+authentication pre-share
+hash sha
+encryption aes 256
+group 2
+lifetime 86400
+exit
+crypto isakmp key skibidi address 23.10.0.1
+crypto ipsec transform-set servers esp-aes esp-sha-hmac
+access-list 102 permit ip 203.0.113.96 0.0.0.31 172.20.5.96 0.0.0.31
+crypto map serversrMap 10 ipsec-isakmp
+set peer 23.10.0.1
+match address 102
+set transform-set servers
+exit
+interface serial 0/1/0
+crypto map serversMap
+do wr
+exit
+
+
+
+
+
+crypto isakmp policy 10
+authentication pre-share
+hash sha
+encryption aes 256
+group 2
+lifetime 86400
+exit
+crypto isakmp key mondongo address 23.10.0.2
+crypto ipsec transform-set staff esp-aes esp-sha-hmac
+access-list 103 permit ip 172.20.5.32 0.0.0.31 203.0.113.32 0.0.0.31
+crypto map staffMap 10 ipsec-isakmp
+set peer 23.10.0.2
+match address 103
+set transform-set staff
+exit
+interface serial 0/1/0
+crypto map staffMap
+do wr
+exit
+
+
+crypto isakmp policy 10
+authentication pre-share
+hash sha
+encryption aes 256
+group 2
+lifetime 86400
+exit
+crypto isakmp key mondongo address 23.10.0.1
+crypto ipsec transform-set staff esp-aes esp-sha-hmac
+access-list 103 permit ip 203.0.113.32 0.0.0.31 172.20.5.32 0.0.0.31
+crypto map staffMap 10 ipsec-isakmp
+set peer 23.10.0.1
+match address 103
+set transform-set staff
+exit
+interface serial 0/1/0
+crypto map staffMap
+do wr
 exit
