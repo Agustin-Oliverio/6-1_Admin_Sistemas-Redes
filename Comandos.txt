@@ -178,14 +178,14 @@ exit
 
 
 ACLs
-interface gigabitEthernet0/0/0.50
-ip access-group 50 out
+interface gigabitEthernet0/0/0.30
+ip access-group 30 out
 exit
 
-access-list 10 permit 172.20.5.64 0.0.0.31
-access-list 10 permit 172.20.5.96 0.0.0.31
-access-list 10 permit 203.0.113.96 0.0.0.31
-access-list 10 permit 198.51.100.0 0.0.0.127
-access-list 10 permit 198.51.100.240 0.0.0.15
-access-list 10 permit 69.13.5.0 0.0.0.255
-access-list 10 deny any
+access-list 50 permit 172.20.5.128 0.0.0.31
+access-list 50 permit 172.20.5.96 0.0.0.31
+access-list 50 permit 203.0.113.128 0.0.0.31
+access-list 50 permit 203.0.113.96 0.0.0.31
+access-list 50 permit 198.51.100.240 0.0.0.15
+access-list 50 permit 69.13.5.0 0.0.0.255
+access-list 50 deny any
