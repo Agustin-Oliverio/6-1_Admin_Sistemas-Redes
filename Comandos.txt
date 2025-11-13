@@ -174,3 +174,18 @@ interface serial 0/1/0
 crypto map staffMap
 do wr
 exit
+
+
+
+ACLs
+interface gigabitEthernet0/0/0.50
+ip access-group 50 out
+exit
+
+access-list 10 permit 172.20.5.64 0.0.0.31
+access-list 10 permit 172.20.5.96 0.0.0.31
+access-list 10 permit 203.0.113.96 0.0.0.31
+access-list 10 permit 198.51.100.0 0.0.0.127
+access-list 10 permit 198.51.100.240 0.0.0.15
+access-list 10 permit 69.13.5.0 0.0.0.255
+access-list 10 deny any
